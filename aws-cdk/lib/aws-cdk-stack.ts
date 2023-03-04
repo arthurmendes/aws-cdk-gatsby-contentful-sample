@@ -28,7 +28,7 @@ export class AwsCdkStack extends Stack {
 
 
     // Route53 Hosted Zone
-    const zone = HostedZone.fromLookup(this, 'HostedZone', { domainName: shortDomain });
+    // const zone = HostedZone.fromLookup(this, 'HostedZone', { domainName: shortDomain });
 
 
     // S3 Bucket to host the website
@@ -58,11 +58,11 @@ export class AwsCdkStack extends Stack {
 
 
     // TLS Certificate
-    const certificate = new DnsValidatedCertificate(this, 'SiteCertificate', {
-      domainName: fullDomain,
-      hostedZone: zone,
-      region: 'us-east-1'
-    });
+    // const certificate = new DnsValidatedCertificate(this, 'SiteCertificate', {
+    //   domainName: fullDomain,
+    //   hostedZone: zone,
+    //   region: 'us-east-1'
+    // });
 
 
     // Lambda@Edge Redirect
@@ -76,13 +76,13 @@ export class AwsCdkStack extends Stack {
 
     // CloudFront Distribution
     const distribution = new Distribution(this, 'CloudFrontDistribution', {
-      certificate: certificate,
+      // certificate: certificate,
       httpVersion: HttpVersion.HTTP2,
       defaultRootObject: 'index.html',
-      domainNames: [
-        shortDomain,
-        fullDomain
-      ],
+      // domainNames: [
+      //   shortDomain,
+      //   fullDomain
+      // ],
       minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
       errorResponses: [
         {
@@ -114,10 +114,10 @@ export class AwsCdkStack extends Stack {
 
 
     // Route53 Alias Record
-    const aliasRecord = new ARecord(this, 'SiteAliasRecord', {
-      recordName: fullDomain,
-      target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
-      zone: zone
-    });
+    // const aliasRecord = new ARecord(this, 'SiteAliasRecord', {
+    //   recordName: fullDomain,
+    //   target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
+    //   zone: zone
+    // });
   }
 }
